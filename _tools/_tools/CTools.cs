@@ -11,24 +11,6 @@ namespace _tools
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="lv"></param>
-        /// <param name="intColsCount"></param>
-        public void AutoresizeLv(ListView lv, int intColsCount)
-        {
-            //int ii = 0;
-            //for (ii = 0; ii <= intColsCount - 1; ++ii)
-            //    cSaveInvoke.SafeControlInvoke<ListView>(lv, (cSaveInvoke.SafeControlInvokeHandler<ListView>)(ListView => lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.ColumnContent)));
-            //for (ii = 0; ii <= intColsCount - 1; ++ii)
-            //    cSaveInvoke.SafeControlInvoke<ListView>(lv, (cSaveInvoke.SafeControlInvokeHandler<ListView>)(ListView => lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.HeaderSize)));
-            int ii;
-            for (ii = 0; ii <= intColsCount - 1; ++ii)
-                lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.ColumnContent);
-            for (ii = 0; ii <= intColsCount - 1; ++ii)
-                lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public string NullToString(object value)
@@ -222,5 +204,47 @@ namespace _tools
             }
             return false;
         }
+
+        /// <summary>
+        /// Fungsi untuk mengatur ukuran column dari ListView
+        /// </summary>
+        /// <param name="controListView">Argumen ListView</param>
+        /// <param name="needHiddenColumn">Argumen ini diberikan apabila diperlukan apabila akan menyembunyikan column, Ex: menampung ID</param>
+        /// <param name="columnHiddenCount">Argumen diberikan untuk menyatakan jumlah column yg akan disembunyikan</param>
+        public void AutoResizeListView(ListView controListView, bool needHiddenColumn = false, int columnHiddenCount = 1)
+        {
+            if (needHiddenColumn)
+            {
+                for (int i = 0; i < controListView.Columns.Count - columnHiddenCount; i++)
+                {
+                    controListView.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    controListView.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < controListView.Columns.Count; i++)
+                {
+                    controListView.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    controListView.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fungsi untuk memberi nilai string kosong pada setiap TextBox dan ComboBox pada kontrol (Form, Containers, Ex: GroupBox) 
+        /// yg telah ditentukan
+        /// </summary>
+        /// <param name="control">bernilai Control</param>
+        public void ClearControlText(Control control)
+        {
+            foreach (Control controls in control.Controls)
+            {
+                if (controls.GetType() == typeof(TextBox) || controls.GetType() == typeof(ComboBox))
+                    controls.Text = "";
+            }
+
+        }
+
     }
 }
